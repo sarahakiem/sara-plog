@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'mobile'=>['required'],
         ]);
     }
 
@@ -67,6 +68,13 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'mobile' => $data['mobile'],
         ]);
+    }
+    private function generateRandomImage($path)
+    {
+        $files = scandir($path);
+        $files = array_diff($files, array('.', '..'));
+        return fake()->randomElement($files);
     }
 }
