@@ -3,11 +3,13 @@
 @section('content')
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{LaravelLocalization::getCurrentLocale()}}" dir="{{ 
+    LaravelLocalization::getCurrentLocaleDirection() }}">
+<head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Post</title>
+    <title>{{__('posts.addHeading')}}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +55,10 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>Add New Post</h2>
+        <a href="{{ LaravelLocalization::getLocalizedURL('en') }}">English</a>
+        <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}">Arabic</a>
+
+        <h2>{{__('posts.add_new')}}</h2>
         <div>
             @if($errors->any())
             <div>
@@ -82,19 +87,35 @@
 
 
 
-        <form action="{{route('store')}}" method="post" enctype="multipart/form-data">
-            @csrf
-            <label for="name">Post Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="content">Content:</label>
-            <textarea id="content" name="content" rows="6" required></textarea>
-            
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
-            
-            <button type="submit">Submit Post</button>
-        </form>
+        <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div>
+        <label for="post_name">{{ __('posts.post_name') }}:</label>
+        <input type="text" id="post_name" name="post_name" value="{{ old('post_name') }}" placeholder="{{ __('posts.post_name') }}:">
+        @error('post_name')
+            <span>{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div>
+        <label for="content">{{ __('posts.content') }}:</label>
+        <textarea id="content" name="content" placeholder="{{ __('posts.content') }}:">{{ old('content') }}</textarea>
+        @error('content')
+            <span>{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div>
+        <label for="image">{{ __('posts.image') }}:</label>
+        <input type="file" id="image" name="image" placeholder="{{ __('posts.image') }}:">
+        @error('image')
+            <span>{{ $message }}</span>
+        @enderror
+    </div>
+
+    <button type="submit">{{ __('posts.Add New Post') }}</button>
+</form>
+
     </div>
 </body>
 </html>
