@@ -9,12 +9,14 @@ use App\Models\Post;
 class PostsController extends Controller
 {
     public function index(){
+        dd(session('test'));
         $posts = Post::paginate(12);
         return view('pages.index',compact('posts'));
     }
 
     /////////////////add new post////////////
     public function add(){
+        session()->put('test','First Laravel session');
 
         return view('pages.add');
     }
@@ -37,7 +39,8 @@ class PostsController extends Controller
         $data->image=$newName;
         $data->save();
         session()->flash("flash_message","post added sussesfuly");
-        return back();
+        //return back();
+        return view('pages.index');
 
     }
     public function edit(string $id){
