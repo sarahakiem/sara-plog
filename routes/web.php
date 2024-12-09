@@ -4,9 +4,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SocialController;
+
 //use Illuminate\Foundation\Configuration\Middleware;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+
+Route::get('auth/github/redirect', [SocialController::class, 'redirect'])->name('socialogin');
+Route::get('auth/github/callback', [SocialController::class, 'callback']);
+ //return redirect('/');
 
 
 // Route::get('/', function () {
